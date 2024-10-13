@@ -7,7 +7,7 @@ import { ApolloProvider } from '@apollo/client';
 import SignUp from '../screens/signUp/SignUp';
 import Login from '../screens/login/Login';
 import OtpVerification from '../screens/otpVerification/OtpVerification';
-// import SearchAppointment from "../screens/searchAppointment/SearchAppointment"
+import SearchAppointment from "../screens/searchAppointment/SearchAppointment"
 // import PatientProfile from "../screens/patientProfile/PatientProfile"
 // import Splash from "../screens/splash/Splash"
 // import OnBoarding from "../screens/onboardingAppointment/OnboardingAppointment"
@@ -28,8 +28,8 @@ export default function Navigation() {
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="OtpVerification" component={OtpVerification} />
           <Stack.Screen name="Dashboard" component={AppNavigator} />
-          {/* <Stack.Screen name="SearchAppointment" component={SearchAppointment} />
-          <Stack.Screen name="PatientProfile" component={PatientProfile} /> */}
+        <Stack.Screen name="SearchAppointment" component={SearchAppointment} />
+          {/* <Stack.Screen name="PatientProfile" component={PatientProfile} />  */}
         </Stack.Navigator>
       </NavigationContainer>
     </ApolloProvider>
