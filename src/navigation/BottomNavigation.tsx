@@ -2,8 +2,8 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image, Text } from 'react-native'; 
-import AppointmentsScreen from '../screens/dashboard/Dashboard';
-import PatientListScreen from '../screens/patientList/PatientList';
+import Appointments from '../screens/dashboard/Dashboard';
+import PatientList from '../screens/patientList/PatientList';
 import ProfileScreen from '../screens/profile/Profile';
 
 const Tab = createBottomTabNavigator();
@@ -65,8 +65,8 @@ const AppNavigator = () => {
         },
       })}
     >
-      <Tab.Screen name="Appointments" component={AppointmentsScreen} />
-      <Tab.Screen name="PatientList" component={PatientListScreen} />
+      <Tab.Screen name="Appointments" component={Appointments} />
+      <Tab.Screen name="PatientList" component={PatientList} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   ); 
