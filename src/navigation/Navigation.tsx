@@ -10,7 +10,7 @@ import PatientProfile from '../screens/patientProfile/PatientProfile';
 import Splash from '../screens/splash/Splash';
 import OnBoarding from '../screens/onboardingAppointment/OnboardingAppointment';
 // import ScheduleAppointment from '../screens/scheduleAppointment/ScheduleAppointment';
-// import DoctorList from '../screens/doctorList/DoctorList';
+import DoctorList from '../screens/doctorList/DoctorList';
 import BottomNavigator from './BottomNavigation'; // For doctors (Dashboard)
 import client from '../apolloClient';
 import { RootStackParams } from '../types/types';
@@ -51,7 +51,7 @@ export default function Navigation() {
           {role === 'PATIENT' && (
             <>
               <Stack.Screen name="PatientProfile" component={PatientProfile} />
-              {/* <Stack.Screen name="DoctorList" component={DoctorList} /> */}
+              <Stack.Screen name="DoctorList" component={DoctorList} />
               {/* <Stack.Screen name="ScheduleAppointment" component={ScheduleAppointment} /> */}
             </>
           )}
