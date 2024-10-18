@@ -58,6 +58,9 @@ const PatientProfile = () => {
           </View>
         ))}
       </View>
+      <TouchableOpacity onPress={() =>navigation.navigate("DoctorList") }>
+          <Image source={require('../../assets/images/Search.png')}  />
+        </TouchableOpacity>
     </ScrollView>
   );
 };

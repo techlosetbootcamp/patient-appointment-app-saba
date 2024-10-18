@@ -7,6 +7,12 @@ export type RootStackParams= {
     SearchAppointment: undefined;
     PatientProfile: undefined;
     OnBoarding:undefined,
+    DoctorList:undefined,
+    ScheduleAppointment:undefined,
+    LoginwithEmail:undefined,
+    ForgetPassword :undefined,
+    ResetPassword:undefined,
+
   };
 
   // +92456879955

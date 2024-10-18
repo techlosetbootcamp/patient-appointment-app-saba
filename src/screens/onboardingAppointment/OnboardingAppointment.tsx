@@ -29,7 +29,7 @@ const BoardingScreen: React.FC = () => {
     if (currentIndex < onboardingData.length - 1) {
       setCurrentIndex(currentIndex + 1);
     } else {
-      navigation.navigate('SignUp');
+      navigation.navigate('Login');
     }
   };
 

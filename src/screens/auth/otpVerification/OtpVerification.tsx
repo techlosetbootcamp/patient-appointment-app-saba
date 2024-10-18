@@ -9,50 +9,27 @@ import {
   Alert,
   Image,
 } from 'react-native';
-
-import {useAuth} from '../../hooks/useAuth';
-import {useAppNavigation} from '../../utils/AppNavigation';
-
+import {useAuth} from '../../../hooks/useAuth';
+import {useAppNavigation} from '../../../utils/AppNavigation';
 const OtpVerificationScreen = () => {
   const navigation = useAppNavigation();
 
   const {
     otp,
-    mobileNo,
+
     loading,
     resending,
     handleOtpChange,
-    handleVerifyOtp,
-    handleResendOtp,
+    onSubmitOtp,
+    onResendOtp,
     error,
   } = useAuth();
-
-  const onSubmit = async () => {
-    const otpString = otp.join('');
-
-    try {
-      await handleVerifyOtp(mobileNo, otpString);
-      console.log('OTP submitted successfully');
-      navigation.navigate('Dashboard');
-    } catch (error) {
-      console.error('Error submitting OTP:', error);
-    }
-  };
-
-  const onResendOtp = async () => {
-    try {
-      await handleResendOtp(mobileNo);
-      console.log('OTP resent successfully');
-    } catch (error) {
-      console.error('Error resending OTP:', error);
-    }
-  };
 
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.container}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image source={require('../../assets/images/Arrow.png')} />
+          <Image source={require('../../../assets/images/Arrow.png')} />
         </TouchableOpacity>
 
         <View style={styles.content}>
@@ -76,7 +53,7 @@ const OtpVerificationScreen = () => {
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={[styles.button, styles.fullWidthButton]}
-              onPress={onSubmit}
+              onPress={onSubmitOtp}
               disabled={loading}>
               <Text style={styles.buttonText}>
                 {loading ? 'Validating...' : 'Validate OTP'}

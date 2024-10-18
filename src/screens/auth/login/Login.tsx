@@ -9,8 +9,8 @@ import {
   ScrollView,
   Image,
 } from 'react-native';
-import {useAuth} from '../../hooks/useAuth';
-import {useAppNavigation} from '../../utils/AppNavigation';
+import {useAuth} from '../../../hooks/useAuth';
+import {useAppNavigation} from '../../../utils/AppNavigation';
 
 const RequestOtp = () => {
   const {handleSendOtp, loading, error, handleSetMobileNo, mobileNo} =
@@ -32,7 +32,7 @@ const RequestOtp = () => {
       <View style={styles.container}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
-            source={require('../../assets/images/Arrow.png')}
+             source={require('../../../assets/images/Arrow.png')}
             style={styles.arrowImage}
           />
         </TouchableOpacity>
@@ -62,22 +62,29 @@ const RequestOtp = () => {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.googleButton}>
-          <View style={styles.googleButtonContent}>
-            <Image
-              source={require('../../assets/images/google.png')}
-              style={styles.googleIcon}
-            />
-            <Text style={styles.googleButtonText}>Continue with Google</Text>
-          </View>
+        <TouchableOpacity style={styles.googleButton}onPress={() => navigation.navigate("LoginwithEmail")}>
+       
+           
+            <Text style={styles.googleButtonText}>Sign in with Email</Text>
+          
         </TouchableOpacity>
 
+
+        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+          <Text style={styles.loginLink}>
+            Don't have an account?{' '}
+            <Text style={styles.loginText}>Sign Up</Text>
+          </Text>
+        </TouchableOpacity>
         <Text style={styles.termsText}>
           By continuing you agree to our{' '}
           <Text style={styles.linkText}>Terms of service</Text> and{' '}
           <Text style={styles.linkText}>Privacy Policy</Text>
           {error && <Text style={styles.errorText}>{error}</Text>}
         </Text>
+
+      
+
       </View>
     </ScrollView>
   );
@@ -185,6 +192,16 @@ const styles = StyleSheet.create({
     color: 'red',
     marginTop: 10,
     textAlign: 'center',
+  },
+  loginLink: {
+    color: '#888888', 
+    textAlign: 'center',
+    marginTop: 10,
+    textDecorationLine: 'underline',
+  },
+  loginText: {
+    color: '#1EB6B9', 
+    fontWeight: 'bold',
   },
 });
 

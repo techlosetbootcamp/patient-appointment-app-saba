@@ -1,5 +1,3 @@
-
-
 import {useSelector} from 'react-redux';
 import {RootState} from '../redux/store';
 import {
@@ -15,6 +13,7 @@ import {
   setOtp,
 } from '../redux/slices/authSlice';
 import {useAppDispatch} from './useDispatch';
+import {useAppNavigation} from '../utils/AppNavigation';
 
 export const useAuth = () => {
   const dispatch = useAppDispatch();
@@ -25,18 +24,18 @@ export const useAuth = () => {
     mobileNo,
     password,
     role,
-
     otp,
     loading: otpLoading,
     resending,
     error: otpError,
-
     loading: authLoading,
     error: authError,
     success,
    
   } = useSelector((state: RootState) => state.auth);
+  const navigation = useAppNavigation();
 
+  console.log('Current role in useAuth:', role);
   // Auth state setters
   const handleSetName = (name: string) => dispatch(setName(name));
   const handleSetEmail = (email: string) => dispatch(setEmail(email));
@@ -70,12 +69,44 @@ export const useAuth = () => {
   };
 
   const handleVerifyOtp = async (mobileNo: string, otpString: string) => {
-    dispatch(verifyOtpAction({mobileNo, otp: otpString}));
+  await dispatch(verifyOtpAction({mobileNo, otp: otpString}));
   };
 
   const handleResendOtp = async (mobileNo: string) => {
     dispatch(resendOtpAction(mobileNo));
   };
+
+
+  const onSubmitOtp =  () => {
+    const otpString = otp.join('');
+    if (!mobileNo) throw new Error('Mobile number is required');
+    try {
+    handleVerifyOtp(mobileNo, otpString);
+      console.log('OTP submitted successfully',role);
+      const updatedRole = role; // This will reflect the updated role after the verification
+
+      // Check the role and navigate to the appropriate screen
+      if (updatedRole === 'PATIENT') {
+        navigation.navigate('PatientProfile'); // Navigate to PatientProfile if role is PATIENT
+      } else if (updatedRole === 'DOCTOR') {
+        navigation.navigate('Dashboard'); // Navigate to Dashboard if role is DOCTOR
+      }
+  console.log("updated role" ,role)
+    } catch (error) {
+      console.error('Error submitting OTP:', error);
+    }
+  };
+
+  // Moved onResendOtp logic to useAuth
+  const onResendOtp = async () => {
+    try {
+      await handleResendOtp(mobileNo);
+      console.log('OTP resent successfully');
+    } catch (error) {
+      console.error('Error resending OTP:', error);
+    }
+  };
+
 
   return {
     // Auth state and handlers
@@ -104,5 +135,8 @@ export const useAuth = () => {
     handleOtpChange,
     handleVerifyOtp,
     handleResendOtp,
+
+    onSubmitOtp,
+    onResendOtp,
   };
 };

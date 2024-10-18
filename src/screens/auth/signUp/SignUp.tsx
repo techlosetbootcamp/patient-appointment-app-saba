@@ -9,8 +9,8 @@ import {
   ScrollView,
   Image,
 } from 'react-native';
-import {useAuth} from '../../hooks/useAuth';
-import {useAppNavigation} from '../../utils/AppNavigation';
+import {useAuth} from '../../../hooks/useAuth';
+import {useAppNavigation} from '../../../utils/AppNavigation';
 
 const SignUp = () => {
   const {
@@ -51,7 +51,7 @@ const SignUp = () => {
       <View style={styles.container}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
-            source={require('../../assets/images/Arrow.png')}
+            source={require('../../../assets/images/Arrow.png')}
             style={styles.arrowImage}
           />
         </TouchableOpacity>
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   arrowImage: {
-    marginBottom: '8%', // Adds space between the arrow and text
+    marginBottom: '8%', 
   },
   header: {
     fontSize: 24,
@@ -254,13 +254,13 @@ const styles = StyleSheet.create({
   },
 
   loginLink: {
-    color: '#888888', // Grey color for the sentence
+    color: '#888888', 
     textAlign: 'center',
     marginTop: 10,
     textDecorationLine: 'underline',
   },
   loginText: {
-    color: '#1EB6B9', // Blue color for 'Login'
+    color: '#1EB6B9', 
     fontWeight: 'bold',
   },
 });

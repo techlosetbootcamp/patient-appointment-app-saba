@@ -3,7 +3,16 @@ import client from '../../apolloClient';
 import {LOGIN_WITH_MOBILE} from '../../graphql/mutations/LoginwithMobile';
 import {SIGNUP_USER} from '../../graphql/mutations/SignupUser';
 import {VERIFY_OTP, RESEND_OTP} from '../../graphql/mutations/VerifyOtp';
+import {jwtDecode} from 'jwt-decode';
 
+
+
+interface JwtPayload {
+  id: string;
+  role: 'PATIENT' | 'DOCTOR';
+  iat: number;
+  exp: number;
+}
 interface AuthState {
   name: string;
   email: string;
@@ -70,32 +79,40 @@ export const signupUser = createAsyncThunk(
   },
 );
 
-// Async action for verifying OTP
+
+
 export const verifyOtpAction = createAsyncThunk(
   'auth/verifyOtp',
   async (
-    {mobileNo, otp}: {mobileNo: string; otp: string},
-    {rejectWithValue},
+    { mobileNo, otp }: { mobileNo: string; otp: string },
+    { rejectWithValue },
   ) => {
     try {
       const response = await client.mutate({
         mutation: VERIFY_OTP,
-        variables: {mobileNo, otp},
+        variables: { mobileNo, otp },
       });
-      console.log('Full response:', response);
-      const token = response.data?.loginWithMobile;
 
-      if (token) {
-        console.log('JWT Token:', token);
-      } else {
-        console.log('Token not found in the response');
+      // Ensure the response has the expected data structure
+      const { loginWithMobile: token } = response.data;
+      if (!token) {
+        throw new Error('Invalid response data');
       }
-      return token;
+
+      console.log('Received data from OTP verification:', token);
+
+      // Decode the JWT token to get the role
+      const decoded: JwtPayload = jwtDecode<JwtPayload>(token);
+
+      // Return the decoded information (token and role)
+      return { token, role: decoded.role };
+  
     } catch (error) {
       return rejectWithValue('Failed to verify OTP');
     }
   },
 );
+
 
 // Async action for resending OTP
 export const resendOtpAction = createAsyncThunk(
@@ -131,6 +148,7 @@ const authSlice = createSlice({
     },
     setRole: (state, action: PayloadAction<'PATIENT' | 'DOCTOR'>) => {
       state.role = action.payload;
+      console.log('Role updated to:', action.payload);
     },
     setOtp: (state, action: PayloadAction<string[]>) => {
       state.otp = action.payload;
@@ -174,7 +192,12 @@ const authSlice = createSlice({
       .addCase(verifyOtpAction.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        state.token = action.payload; 
+        // state.token = action.payload; 
+        const { token, role } = action.payload; // Extract token and role from the payload
+        state.token = token;
+        state.role = role;
+        console.log('Role set during OTP verification:', role);
+     
       })
       .addCase(verifyOtpAction.rejected, (state, action) => {
         state.loading = false;
